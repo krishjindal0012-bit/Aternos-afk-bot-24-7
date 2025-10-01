@@ -1,0 +1,1 @@
+# Aternos-afk-bot-24-7
