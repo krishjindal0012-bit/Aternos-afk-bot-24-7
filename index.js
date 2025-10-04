@@ -13,11 +13,11 @@ function createBot() {
     const password = "456789"; // change this!
 
     // Delay before auth
-    setTimeout(() => {
+    setTimeout(() => { 
       bot.chat(`/register ${password} ${password}`);
       bot.chat(`/login ${password}`);
       console.log("🔑 Sent /register and /login");
-    }, 5000);
+    }, 10000);
 
     // Anti-AFK movement
     setInterval(() => {
@@ -35,7 +35,7 @@ function createBot() {
       // Jump randomly
       if (Math.random() > 0.5) {
         bot.setControlState("jump", true);
-        setTimeout(() => bot.setControlState("jump", false), 300);
+        setTimeout(() => bot.setControlState("jump", true, 300);
       }
 
       // Stop moving after short time
@@ -45,16 +45,16 @@ function createBot() {
 
     // Anti-AFK chat
     const messages = [
-      "",
-      "",
-      ""
+       "Do Not Try To Cheat You Can Be Banned For This",
+        "If You Find Anyone Cheat Inform Immediately On Our Discord Server With Proof",
+        "Subscribe To Shadow Realms"
     ];
 
     setInterval(() => {
       const msg = messages[Math.floor(Math.random() * messages.length)];
       bot.chat(msg);
       console.log("💬 Sent message:", msg);
-    }, 60000); // every 1 minute
+    }, 600000); // every 10 minute
   });
 
   bot.on("end", () => {
