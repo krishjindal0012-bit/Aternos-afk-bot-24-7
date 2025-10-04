@@ -13,7 +13,7 @@ function createBot() {
     const password = "456789"; // change this!
 
     // Delay before auth
-    setTimeout(() => { 
+    setTimeout(() => {
       bot.chat(`/register ${password} ${password}`);
       bot.chat(`/login ${password}`);
       console.log("🔑 Sent /register and /login");
@@ -35,7 +35,7 @@ function createBot() {
       // Jump randomly
       if (Math.random() > 0.5) {
         bot.setControlState("jump", true);
-        setTimeout(() => bot.setControlState("jump", true, 300);
+        setTimeout(() => bot.setControlState("jump", false, 300);
       }
 
       // Stop moving after short time
