@@ -15,7 +15,7 @@ function createBot() {
   console.log(`🤖 Starting bot with username: ${username}`);
 
   const bot = mineflayer.createBot({
-    host: "LeafyLand.aternos.me", // <-- your Aternos IP
+    host: "LeafyLand.aternos.me:49059", // <-- your Aternos IP
     port: 49059,
     username: username
   });
