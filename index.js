@@ -20,7 +20,7 @@ function createBot() {
     username: username
   });
 
-  const password = "123456"; // password for /register & /login
+  const password = "456789"; // password for /register & /login
 
   // --- Auto login/register ---
   bot.on("messagestr", (msg) => {
