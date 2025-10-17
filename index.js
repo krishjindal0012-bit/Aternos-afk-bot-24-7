@@ -22,6 +22,14 @@ function createBot() {
 
   const password = "456789"; // password for /register & /login
 
+  bot.on("error", (err) => {
+  console.log(`⚠️ Bot ${username} error:`, err.message);
+  if (err.code === "ECONNRESET" || err.code === "ECONNREFUSED") {
+    console.log("🔁 Retrying connection in 10s...");
+    setTimeout(createBot,10000);
+  }
+});
+
   // --- Auto login/register ---
   bot.on("messagestr", (msg) => {
     console.log("📩 Server:", msg);
