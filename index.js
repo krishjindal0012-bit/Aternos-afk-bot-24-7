@@ -2,9 +2,9 @@ const mineflayer = require("mineflayer");
 
 // --- List of usernames for reconnect ---
 const usernames = [
-  "LeafyLand",
   "Leafy_Land",
   "Moderator",
+  "LeafyLand",
   "Moderator_2"
 ];
 
@@ -20,7 +20,7 @@ function createBot() {
     username: username
   });
 
-  const password = "456789"; // password for /register & /login
+  const password = "123456"; // password for /register & /login
 
   // --- Auto login/register ---
   bot.on("messagestr", (msg) => {
@@ -53,7 +53,7 @@ function createBot() {
   bot.on("end", () => {
     console.log(`❌ Bot ${username} disconnected. Reconnecting in 1m30s...`);
     currentUser++; // move to next username
-    setTimeout(createBot, 30000); // wait 30s
+    setTimeout(createBot, 90000); // wait 90s
   });
 
   bot.on("kicked", (reason) => {
@@ -100,16 +100,18 @@ function startAntiAFK(bot) {
 
   // Random chat messages
   const messages = [
-        "Do Not Try To Cheat You Can Be Banned For This",
-        "If You Find Anyone Cheat Inform Immediately On Our Discord Server With Proof",
-        "Subscribe To Shadow Realms"
+    "Hey 👋",
+    "Still grinding 😅",
+    "AFK bot chilling",
+    "This server is fun!",
+    "Anyone online?"
   ];
 
   setInterval(() => {
     const msg = messages[Math.floor(Math.random() * messages.length)];
     bot.chat(msg);
     console.log("💬 Sent:", msg);
-  }, 600000); // every 10 min
+  }, 60000); // every 1 min
 }
 
 createBot();
