@@ -59,7 +59,7 @@ function createBot() {
 
   // --- Auto reconnect ---
   bot.on("end", () => {
-    console.log(`❌ Bot ${username} disconnected. Reconnecting in 1m30s...`);
+    console.log(`❌ Bot ${username} disconnected. Reconnecting in 30s...`);
     currentUser++; // move to next username
     setTimeout(createBot, 30000); // wait 30s
   });
