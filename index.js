@@ -108,18 +108,16 @@ function startAntiAFK(bot) {
 
   // Random chat messages
   const messages = [
-    "Hey 👋",
-    "Still grinding 😅",
-    "AFK bot chilling",
-    "This server is fun!",
-    "Anyone online?"
+    "Do Not Try To Cheat You Can Be Banned For This",
+        "If You Find Anyone Cheat Inform Immediately On Our Discord Server With Proof",
+        "Subscribe To Shadow Realms"
   ];
 
   setInterval(() => {
     const msg = messages[Math.floor(Math.random() * messages.length)];
     bot.chat(msg);
     console.log("💬 Sent:", msg);
-  }, 60000); // every 1 min
+  }, 600000); // every 10 min
 }
 
 createBot();
