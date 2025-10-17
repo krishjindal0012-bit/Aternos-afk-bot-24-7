@@ -53,7 +53,7 @@ function createBot() {
   bot.on("end", () => {
     console.log(`❌ Bot ${username} disconnected. Reconnecting in 1m30s...`);
     currentUser++; // move to next username
-    setTimeout(createBot, 90000); // wait 90s
+    setTimeout(createBot, 30000); // wait 30s
   });
 
   bot.on("kicked", (reason) => {
