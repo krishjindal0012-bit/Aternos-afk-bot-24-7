@@ -10,6 +10,9 @@ const usernames = [
 
 let currentUser = 0; // start from first username
 
+let reconnectAttempts = 0;
+const maxReconnects = 4;
+
 function createBot() {
   const username = usernames[currentUser % usernames.length];
   console.log(`🤖 Starting bot with username: ${username}`);
@@ -21,15 +24,30 @@ function createBot() {
   });
 
   const password = "456789"; // password for /register & /login
-
-  bot.on("error", (err) => {
-  console.log(`⚠️ Bot ${username} error:`, err.message);
-  if (err.code === "ECONNRESET" || err.code === "ECONNREFUSED") {
-    console.log("🔁 Retrying connection in 10s...");
-    setTimeout(createBot,10000);
+  
+// --- Auto reconnect on end ---
+bot.on("end", () => {
+  if (reconnectAttempts < maxReconnects) {
+    reconnectAttempts++;
+    console.log(`❌ Bot disconnected. Reconnecting in 10s... (Attempt ${reconnectAttempts}/${maxReconnects})`);
+    currentUser++; // move to next username
+    setTimeout(createBot, 10000);
+  } else {
+    console.log("🛑 Max reconnect attempts reached. Stopping bot.");
   }
 });
 
+// --- Handle connection errors (like ECONNRESET) ---
+bot.on("error", (err) => {
+  console.log(`⚠️ Bot ${username} error:`, err.code || err.message);
+  if ((err.code === "ECONNRESET" || err.code === "ECONNREFUSED") && reconnectAttempts < maxReconnects) {
+    reconnectAttempts++;
+    console.log(`🔁 Retrying in 10s... (Attempt ${reconnectAttempts}/${maxReconnects})`);
+    setTimeout(createBot, 10000);
+  } else if (reconnectAttempts >= maxReconnects) {
+    console.log("🛑 Max reconnect attempts reached due to error. Stopping bot.");
+  }
+});
   // --- Auto login/register ---
   bot.on("messagestr", (msg) => {
     console.log("📩 Server:", msg);
