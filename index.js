@@ -2,14 +2,15 @@ const mineflayer = require("mineflayer");
 
 // --- List of usernames for reconnect ---
 const usernames = [
-  "Leafy_Land",
-  "Moderator",
-  "LeafyLand",
-  "Moderator_2"
+  "ForestSoul_1",
+  "Leaf_Guardian",
+  "GreenSpirit_1",
+  "Bush_Camper"
 ];
 
 let currentUser = 0; // start from first username
 
+// --- Reconnect limit variables ---
 let reconnectAttempts = 0;
 const maxReconnects = 4;
 
@@ -18,79 +19,79 @@ function createBot() {
   console.log(`🤖 Starting bot with username: ${username}`);
 
   const bot = mineflayer.createBot({
-    host: "LeafyLand.aternos.me", // <-- your Aternos IP
+    host: "LeafyLand.aternos.me", // <-- replace with your server IP
     port: 49059,
     username: username
   });
 
-  const password = "456789"; // password for /register & /login
-  
-// --- Auto reconnect on end ---
-bot.on("end", () => {
-  if (reconnectAttempts < maxReconnects) {
-    reconnectAttempts++;
-    console.log(`❌ Bot disconnected. Reconnecting in 10s... (Attempt ${reconnectAttempts}/${maxReconnects})`);
-    currentUser++; // move to next username
-    setTimeout(createBot, 10000);
-  } else {
-    console.log("🛑 Max reconnect attempts reached. Stopping bot.");
-  }
-});
+  const password = "234567"; // password for /register & /login
 
-// --- Handle connection errors (like ECONNRESET) ---
-bot.on("error", (err) => {
-  console.log(`⚠️ Bot ${username} error:`, err.code || err.message);
-  if ((err.code === "ECONNRESET" || err.code === "ECONNREFUSED") && reconnectAttempts < maxReconnects) {
-    reconnectAttempts++;
-    console.log(`🔁 Retrying in 10s... (Attempt ${reconnectAttempts}/${maxReconnects})`);
-    setTimeout(createBot, 10000);
-  } else if (reconnectAttempts >= maxReconnects) {
-    console.log("🛑 Max reconnect attempts reached due to error. Stopping bot.");
-  }
-});
   // --- Auto login/register ---
   bot.on("messagestr", (msg) => {
-    console.log("📩 Server:", msg);
-
     if (msg.toLowerCase().includes("register")) {
       bot.chat(`/register ${password} ${password}`);
-      console.log("🔑 Sent /register");
     }
 
     if (msg.toLowerCase().includes("login")) {
       bot.chat(`/login ${password}`);
-      console.log("🔑 Sent /login");
     }
   });
 
   // --- Auto respawn ---
   bot.on("death", () => {
-    console.log("💀 Bot died, respawning...");
     setTimeout(() => bot.chat("/respawn"), 3000);
   });
 
+  // --- Reset reconnect attempts on successful spawn ---
+  bot.once("spawn", () => {
+    console.log(`✅ Bot ${username} spawned! Resetting reconnect attempts.`);
+    reconnectAttempts = 0; // reset attempts
+    setTimeout(() => startAntiAFK(bot), 10000);
+  });
+
+  // --- Detect if bot is banned ---
+  bot.on("kicked", (reason) => {
+    console.log(`⚠️ Bot ${username} kicked:`, reason);
+
+    const reasonText = String(reason).toLowerCase();
+    const isBanned = reasonText.includes("ban") || reasonText.includes("permanent") || reasonText.includes("blacklist");
+
+    if (isBanned) {
+      console.log(`🚫 Bot ${username} is banned! Switching to next account.`);
+      currentUser++; // move to next username
+      reconnectAttempts = 0;
+      setTimeout(createBot, 5000);
+    }
+  });
+
+  // --- Auto reconnect on end (if not banned) ---
+  bot.on("end", () => {
+    if (reconnectAttempts < maxReconnects) {
+      reconnectAttempts++;
+      console.log(`❌ Bot disconnected. Reconnecting in 90s... (Attempt ${reconnectAttempts}/${maxReconnects})`);
+      setTimeout(createBot, 10000);
+    } else {
+      console.log("🛑 Max reconnect attempts reached. Stopping reconnection for now.");
+    }
+  });
+
+  // --- Handle connection errors (like ECONNRESET) ---
+  bot.on("error", (err) => {
+    console.log(`⚠️ Bot ${username} error:`, err.code || err.message);
+    if (reconnectAttempts < maxReconnects) {
+      reconnectAttempts++;
+      console.log(`🔁 Retrying in 5s... (Attempt ${reconnectAttempts}/${maxReconnects})`);
+      setTimeout(createBot, 5000);
+    } else {
+      console.log("🛑 Max reconnect attempts reached due to error. Stopping reconnection for now.");
+    }
+  });
+}
   // --- Start Anti-AFK after spawn ---
   bot.once("spawn", () => {
     console.log(`✅ Bot ${username} spawned, starting Anti-AFK...`);
     setTimeout(() => startAntiAFK(bot), 10000);
   });
-
-  // --- Auto reconnect ---
-  bot.on("end", () => {
-    console.log(`❌ Bot ${username} disconnected. Reconnecting in 30s...`);
-    currentUser++; // move to next username
-    setTimeout(createBot, 30000); // wait 30s
-  });
-
-  bot.on("kicked", (reason) => {
-    console.log(`⚠️ Bot ${username} kicked:`, reason);
-  });
-
-  bot.on("error", (err) => {
-    console.log(`⚠️ Bot ${username} error:`, err);
-  });
-}
-
 // --- Anti-AFK system ---
 function startAntiAFK(bot) {
   console.log("🚀 Anti-AFK started!");
