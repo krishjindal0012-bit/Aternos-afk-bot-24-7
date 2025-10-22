@@ -10,9 +10,6 @@ const usernames = [
 
 let currentUser = 0; // start from first username
 
-let reconnectAttempts = 0;
-const maxReconnects = 4;
-
 function createBot() {
   const username = usernames[currentUser % usernames.length];
   console.log(`🤖 Starting bot with username: ${username}`);
