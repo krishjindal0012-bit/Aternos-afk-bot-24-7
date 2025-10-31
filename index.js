@@ -96,6 +96,8 @@ function startAntiAFK(bot) {
     // Stop moving after 2s
     setTimeout(() => bot.setControlState(action, false), 30000);
 
+  },30000);//every 30s
+
   // Random chat messages
   const messages = [
     "Do Not Try To Cheat You Can Be Banned For This",
@@ -108,5 +110,5 @@ function startAntiAFK(bot) {
     bot.chat(msg);
     console.log("💬 Sent:", msg);
   }, 600000); // every 10 min
-    
+ }    
 createBot();
