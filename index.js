@@ -85,7 +85,7 @@ function startAntiAFK(bot) {
     // Jump sometimes
     if (Math.random() > 0.4) {
       bot.setControlState("jump", true);
-      setTimeout(() => bot.setControlState("jump", false), 300);
+      setTimeout(() => bot.setControlState("jump", false), 30000);
     }
 
     // Swing arm sometimes
@@ -94,9 +94,7 @@ function startAntiAFK(bot) {
     }
 
     // Stop moving after 2s
-    setTimeout(() => bot.setControlState(action, false), 2000);
-
-  }, 8000); // every 8s
+    setTimeout(() => bot.setControlState(action, false), 30000);
 
   // Random chat messages
   const messages = [
