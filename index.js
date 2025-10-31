@@ -108,6 +108,5 @@ function startAntiAFK(bot) {
     bot.chat(msg);
     console.log("💬 Sent:", msg);
   }, 600000); // every 10 min
-}
-
+    
 createBot();
