@@ -62,8 +62,7 @@ function createBot() {
 
   bot.on("error", (err) => {
     console.log(`⚠️ Bot ${username} error:`, err);
-  });
-}
+    
 // --- Handle ECONNRESET or network failure ---
 if (err.code === "ECONNRESET" || err.code === "ETIMEDOUT") {
   console.log("🌐 Connection reset detected. Reconnecting in 30s...");
@@ -72,7 +71,9 @@ if (err.code === "ECONNRESET" || err.code === "ETIMEDOUT") {
   } catch {}
   currentUser++;
   setTimeout(createBot, 30000);
-}
+  }
+});    
+  
 // --- Anti-AFK system ---
 function startAntiAFK(bot) {
   console.log("🚀 Anti-AFK started!");
