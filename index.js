@@ -60,20 +60,23 @@ function createBot() {
     console.log(`⚠️ Bot ${username} kicked:`, reason);
   });
 
-  bot.on("error", (err) => {
-    console.log(`⚠️ Bot ${username} error:`, err);
-    
-// --- Handle ECONNRESET or network failure ---
-if (err.code === "ECONNRESET" || err.code === "ETIMEDOUT") {
-  console.log("🌐 Connection reset detected. Reconnecting in 30s...");
-  try {
-    bot.quit();
-  } catch {}
-  currentUser++;
-  setTimeout(createBot, 30000);
-  }
-});    
-  
+  bot.on("error", (error) => {
+    console.log(`⚠️ Bot ${username} error:`, error);
+
+    // --- Handle ECONNRESET or network failure ---
+    if (error.code === "ECONNRESET" || error.code === "ETIMEDOUT") {
+      console.log("🌐 Connection reset detected. Reconnecting in 20s...");
+      try {
+        bot.quit();
+      } catch (e) {
+        console.log("⚠️ Error while quitting bot:", e);
+      }
+      currentUser++;
+      setTimeout(createBot, 20000);
+    }
+  });
+}
+
 // --- Anti-AFK system ---
 function startAntiAFK(bot) {
   console.log("🚀 Anti-AFK started!");
@@ -81,37 +84,30 @@ function startAntiAFK(bot) {
   setInterval(() => {
     if (!bot.entity) return;
 
-    // Pick random movement
     const actions = ["forward", "back", "left", "right"];
     const action = actions[Math.floor(Math.random() * actions.length)];
     bot.setControlState(action, true);
 
-    // Random head movement
     const yaw = Math.random() * Math.PI * 2;
     const pitch = (Math.random() - 0.5) * Math.PI / 2;
     bot.look(yaw, pitch, false);
 
-    // Jump sometimes
     if (Math.random() > 0.4) {
       bot.setControlState("jump", true);
       setTimeout(() => bot.setControlState("jump", false), 30000);
     }
 
-    // Swing arm sometimes
     if (Math.random() > 0.5) {
       bot.swingArm("right");
     }
 
-    // Stop moving after 2s
     setTimeout(() => bot.setControlState(action, false), 30000);
+  }, 30000); // every 30s
 
-  },30000);//every 30s
-
-  // Random chat messages
   const messages = [
     "Do Not Try To Cheat You Can Be Banned For This",
-        "If You Find Anyone Cheat Inform Immediately On Our Discord Server With Proof",
-        "Subscribe To Shadow Realms"
+    "If You Find Anyone Cheat Inform Immediately On Our Discord Server With Proof",
+    "Subscribe To Shadow Realms"
   ];
 
   setInterval(() => {
@@ -119,5 +115,7 @@ function startAntiAFK(bot) {
     bot.chat(msg);
     console.log("💬 Sent:", msg);
   }, 600000); // every 10 min
- }    
+}
+
+// --- Start the bot ---
 createBot();
