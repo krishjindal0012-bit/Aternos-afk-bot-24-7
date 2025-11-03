@@ -105,9 +105,9 @@ function startAntiAFK(bot) {
   }, 30000); // every 30s
 
   const messages = [
-    "Do Not Try To Cheat You Can Be Banned For This",
-    "If You Find Anyone Cheat Inform Immediately On Our Discord Server With Proof",
-    "Subscribe To Shadow Realms"
+    "/say §c§lDo Not Try To Cheat You Can Be Banned For This",
+    "/say §c§lIf You Find Anyone Cheat Inform Immediately On Our Discord Server With Proof",
+    "/say §c§lSubscribe To Shadow Realms"
   ];
 
   setInterval(() => {
