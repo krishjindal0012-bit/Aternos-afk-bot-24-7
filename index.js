@@ -22,7 +22,7 @@ function createBot() {
     bot = null;
   }
 
-  const username = usernames
+  const username = usernames[currentUser];
   console.log(`🤖 Starting bot with username: ${username}`);
 
   bot = mineflayer.createBot({
