@@ -22,7 +22,7 @@ function createBot() {
     bot = null;
   }
 
-  const username = usernames[currentUser % usernames.length];
+  const username = usernames
   console.log(`🤖 Starting bot with username: ${username}`);
 
   bot = mineflayer.createBot({
@@ -126,9 +126,9 @@ function startAntiAFK(bot) {
 
   // --- Send chat messages every 10 mins ---
   const messages = [
-    "/say §c§lDo Not Try To Cheat You Can Be Banned For This",
-    "/say §c§lIf You Find Anyone Cheat Inform Immediately On Our Discord Server With Proof",
-    "/say §c§lSubscribe To Shadow Realms"
+    "/say&c&lDo Not Try To Cheat You Can Be Banned For This",
+    "/say &c&lIf You Find Anyone Cheat Inform Immediately On Our Discord Server With Proof",
+    "/say &c&lSubscribe To Shadow Realms"
   ];
 
   setInterval(() => {
