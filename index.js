@@ -2,9 +2,9 @@ const mineflayer = require("mineflayer");
 
 const usernames = [
   "Leaf_Guardian",
-  "GreenSpirit_1",
+  "Leaf_Realm",
   "ForestSoul_1",
-  "Bush_Camper"
+  "Leafy_Knight"
 ];
 
 let currentUser = 0;
